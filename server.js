@@ -33,7 +33,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-app.get("/", (req, res) => {
+app.get("/hello", (req, res) => {
   res.json({ message: "hello world" });
 });
 // POST endpoint for handling form submissions
