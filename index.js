@@ -66,7 +66,7 @@ app.post("/send-email", (req, res) => {
       <p><strong>Check-out Date:</strong> ${checkOutDate}</p>
       <p><strong>Total Adults:</strong> ${totalAdults}</p>
       <p><strong>Total Children:</strong> ${totalChildren}</p>
-      <p><strong>Children Ages:</strong> ${childrenAges.join(", ")}</p>
+      ${childrenAges && childrenAges.length > 0 ? childrenAges.map(age => `<p><strong>Child Age:</strong> ${age}</p>`).join('') : ''}
       <p><strong>Message:</strong> ${message}</p>
     `,
   };
