@@ -8,14 +8,14 @@ dotenv.config();
 const app = express();
 const port = 8080;
 
-console.log('in backend')
+console.log("in backend");
 
 // Configure CORS options
 const corsOptions = {
-  origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200, 
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 // Middleware
 app.use(cors(corsOptions)); // Enable CORS for cross-origin requests
@@ -24,12 +24,12 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // Email configuration
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
+  host: "smtp.gmail.com",
   port: 465,
   secure: true,
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
+    pass: process.env.EMAIL_PASS,
   },
 });
 
@@ -38,7 +38,7 @@ app.get("/hello", (req, res) => {
 });
 // POST endpoint for handling form submissions
 app.post("/send-email", (req, res) => {
-  console.log('in backend app.post')
+  console.log("in backend app.post");
 
   const {
     fullName,
@@ -55,7 +55,7 @@ app.post("/send-email", (req, res) => {
   // Email content
   const mailOptions = {
     from: process.env.EMAIL_USE,
-    to: process.env.EMAIL_TO, 
+    to: process.env.EMAIL_TO,
     cc: process.env.EMAIL_CC,
     subject: "New Message from Contact Form",
     html: `
@@ -66,6 +66,7 @@ app.post("/send-email", (req, res) => {
       <p><strong>Check-out Date:</strong> ${checkOutDate}</p>
       <p><strong>Total Adults:</strong> ${totalAdults}</p>
       <p><strong>Total Children:</strong> ${totalChildren}</p>
+      <p><strong>Children Ages:</strong> ${childrenAges.join(", ")}</p>
       <p><strong>Message:</strong> ${message}</p>
     `,
   };
