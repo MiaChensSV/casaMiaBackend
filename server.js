@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
   res.json({ message: "hello world" });
 });
 // POST endpoint for handling form submissions
-app.post("/send-emails", (req, res) => {
+app.post("/send-email", (req, res) => {
   console.log('in backend app.post')
 
   const {
@@ -66,7 +66,6 @@ app.post("/send-emails", (req, res) => {
       <p><strong>Check-out Date:</strong> ${checkOutDate}</p>
       <p><strong>Total Adults:</strong> ${totalAdults}</p>
       <p><strong>Total Children:</strong> ${totalChildren}</p>
-      <p><strong>Children Ages:</strong> ${childrenAges.join(", ")}</p>
       <p><strong>Message:</strong> ${message}</p>
     `,
   };
