@@ -77,18 +77,22 @@ app.post("/send-email", (req, res) => {
     cc: process.env.EMAIL_CC,
     subject: `New Booking Request - ${apartmentName}`,
     html: `
-      <h2>New Booking Request - ${apartmentName}</h2>
+      <h2>New Booking Request</h2>
+      <p><strong>Apartment:</strong> ${apartmentName}</p>
+      <hr style="border: none; border-top: 1px solid #ddd;" />
       <p><strong>Name:</strong> ${fullName}</p>
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Phone:</strong> ${phone}</p>
-      <p><strong>Apartment:</strong> ${apartmentName}</p>
+      <hr style="border: none; border-top: 1px solid #ddd;" />
       <p><strong>Check-in Date:</strong> ${checkInDate}</p>
       <p><strong>Check-out Date:</strong> ${checkOutDate}</p>
       <p><strong>Nights:</strong> ${nights || 'N/A'}</p>
       <p><strong>Estimated Price:</strong> ${estimatedPrice ? '€' + estimatedPrice : 'N/A'}</p>
+      <hr style="border: none; border-top: 1px solid #ddd;" />
       <p><strong>Total Adults:</strong> ${totalAdults}</p>
       <p><strong>Total Children:</strong> ${totalChildren}</p>
       ${childrenAges && childrenAges.length > 0 ? childrenAges.map(age => `<p><strong>Child Age:</strong> ${age}</p>`).join('') : ''}
+      <hr style="border: none; border-top: 1px solid #ddd;" />
       ${message ? `<p><strong>Message:</strong> ${message}</p>` : ''}
     `,
   };
