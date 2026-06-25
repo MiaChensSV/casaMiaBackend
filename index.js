@@ -11,8 +11,15 @@ const port = process.env.PORT || 8080;
 console.log("in backend");
 
 // Configure CORS options
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://vacationnerja.com",
+  "https://www.vacationnerja.com",
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: allowedOrigins,
   optionsSuccessStatus: 200,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
