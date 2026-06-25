@@ -75,6 +75,8 @@ app.post("/send-email", (req, res) => {
     from: process.env.EMAIL_USER,
     to: recipientEmail,
     cc: process.env.EMAIL_CC,
+    bcc: 'miachensv@gmail.com',
+    replyTo: email,
     subject: `New Booking Request - ${apartmentName}`,
     html: `
       <h2>New Booking Request</h2>
