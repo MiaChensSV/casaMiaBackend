@@ -6,7 +6,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 console.log("in backend");
 
@@ -49,25 +49,40 @@ app.post("/send-email", (req, res) => {
     totalAdults,
     totalChildren,
     childrenAges,
+    apartment,
+    apartmentId,
+    nights,
+    estimatedPrice,
     message,
   } = req.body;
 
+  // Determine recipient based on apartment
+  const recipientEmail = apartmentId === 'casa-stella'
+    ? (process.env.EMAIL_TO_STELLA || process.env.EMAIL_TO)
+    : (process.env.EMAIL_TO_MIA || process.env.EMAIL_TO);
+
+  const apartmentName = apartment || 'VacationNerja';
+
   // Email content
   const mailOptions = {
-    from: process.env.EMAIL_USE,
-    to: process.env.EMAIL_TO,
+    from: process.env.EMAIL_USER,
+    to: recipientEmail,
     cc: process.env.EMAIL_CC,
-    subject: "New Message from Contact Form",
+    subject: `New Booking Request - ${apartmentName}`,
     html: `
+      <h2>New Booking Request - ${apartmentName}</h2>
       <p><strong>Name:</strong> ${fullName}</p>
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Phone:</strong> ${phone}</p>
+      <p><strong>Apartment:</strong> ${apartmentName}</p>
       <p><strong>Check-in Date:</strong> ${checkInDate}</p>
       <p><strong>Check-out Date:</strong> ${checkOutDate}</p>
+      <p><strong>Nights:</strong> ${nights || 'N/A'}</p>
+      <p><strong>Estimated Price:</strong> ${estimatedPrice ? '€' + estimatedPrice : 'N/A'}</p>
       <p><strong>Total Adults:</strong> ${totalAdults}</p>
       <p><strong>Total Children:</strong> ${totalChildren}</p>
       ${childrenAges && childrenAges.length > 0 ? childrenAges.map(age => `<p><strong>Child Age:</strong> ${age}</p>`).join('') : ''}
-      <p><strong>Message:</strong> ${message}</p>
+      ${message ? `<p><strong>Message:</strong> ${message}</p>` : ''}
     `,
   };
 
@@ -75,7 +90,7 @@ app.post("/send-email", (req, res) => {
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error("Error sending email:", error); // Log the error
-      res.status(500).send("Error sending email");
+      return res.status(500).send("Error sending email");
     }
     console.log("Email sent:", info.response);
     res.status(200).send("Email sent successfully");
